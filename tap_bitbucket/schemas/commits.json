@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Commit",
+  "type": "object",
+  "properties": {
+    "hash": {
+      "type": "string",
+      "description": "The SHA1 hash of the commit."
+    },
+    "repository": {
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "type": "string",
+          "description": "The full name of the repository, e.g., 'owner/repo_name'."
+        },
+        "links": {
+          "type": "object",
+          "properties": {
+            "html": {
+              "type": "object",
+              "properties": {
+                "href": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "URL to the HTML representation of the repository."
+                }
+              },
+              "required": [
+                "href"
+              ]
+            }
+          },
+          "required": [
+            "html"
+          ]
+        }
+      },
+      "required": [
+        "full_name",
+        "links"
+      ]
+    },
+    "author": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "display_name": {
+              "type": "string",
+              "description": "The display name of the author."
+            },
+            "uuid": {
+              "type": "string",
+              "description": "The UUID of the author."
+            }
+          },
+          "required": [
+            "display_name",
+            "uuid"
+          ]
+        },
+        "raw": {
+          "type": "string",
+          "description": "The raw author information."
+        }
+      }
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the commit was made."
+    },
+    "message": {
+      "type": "string",
+      "description": "The commit message."
+    },
+    "parents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "hash": {
+            "type": "string",
+            "description": "The SHA1 hash of the parent commit."
+          }
+        },
+        "required": [
+          "hash"
+        ]
+      }
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "object",
+          "properties": {
+            "href": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to the HTML representation of the commit."
+            }
+          },
+          "required": [
+            "href"
+          ]
+        }
+      },
+      "required": [
+        "html"
+      ]
+    }
+  },
+  "required": [
+    "hash",
+    "repository",
+    "author",
+    "date",
+    "message",
+    "parents",
+    "links"
+  ]
+}

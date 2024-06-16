@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Repository",
+  "type": "object",
+  "properties": {
+    "scm": {
+      "type": "string",
+      "description": "The source control management system used by the repository."
+    },
+    "website": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "The URL of the repository's website."
+    },
+    "has_wiki": {
+      "type": "boolean",
+      "description": "Indicates if the repository has a wiki."
+    },
+    "uuid": {
+      "type": "string",
+      "description": "The UUID of the repository."
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "object",
+          "properties": {
+            "href": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to the HTML representation of the repository."
+            }
+          },
+          "required": [
+            "href"
+          ]
+        },
+        "avatar": {
+          "type": "object",
+          "properties": {
+            "href": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to the repository's avatar."
+            }
+          },
+          "required": [
+            "href"
+          ]
+        }
+      },
+      "required": [
+        "html",
+        "avatar"
+      ]
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The key of the project the repository belongs to."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the project."
+        }
+      },
+      "required": [
+        "key",
+        "name"
+      ]
+    },
+    "full_name": {
+      "type": "string",
+      "description": "The full name of the repository, e.g., 'owner/repo_name'."
+    },
+    "owner": {
+      "type": "object",
+      "properties": {
+        "display_name": {
+          "type": "string",
+          "description": "The display name of the repository owner."
+        },
+        "uuid": {
+          "type": "string",
+          "description": "The UUID of the repository owner."
+        }
+      },
+      "required": [
+        "display_name",
+        "uuid"
+      ]
+    },
+    "created_on": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the repository was created."
+    },
+    "updated_on": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the repository was last updated."
+    },
+    "size": {
+      "type": "integer",
+      "description": "The size of the repository in bytes."
+    },
+    "language": {
+      "type": "string",
+      "description": "The primary language of the repository."
+    },
+    "has_issues": {
+      "type": "boolean",
+      "description": "Indicates if the repository has an issue tracker."
+    },
+    "is_private": {
+      "type": "boolean",
+      "description": "Indicates if the repository is private."
+    }
+  },
+  "required": [
+    "scm",
+    "uuid",
+    "links",
+    "full_name",
+    "owner",
+    "created_on",
+    "updated_on",
+    "size",
+    "is_private"
+  ]
+}

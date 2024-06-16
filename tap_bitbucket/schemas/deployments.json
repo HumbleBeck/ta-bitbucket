@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Deployment",
+  "type": "object",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "description": "The unique identifier of the deployment."
+    },
+    "deployment_type": {
+      "type": "string",
+      "description": "The type of deployment (e.g., 'manual', 'auto')."
+    },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "description": "The unique identifier of the environment."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the environment (e.g., 'production', 'staging')."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of environment."
+        }
+      },
+      "required": [
+        "uuid",
+        "name",
+        "type"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "description": "The state of the deployment (e.g., 'successful', 'failed')."
+    },
+    "created_on": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the deployment was created."
+    },
+    "completed_on": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "The date and time when the deployment was completed."
+    },
+    "trigger": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "description": "The unique identifier of the trigger."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the trigger."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of trigger (e.g., 'pipeline', 'manual')."
+        }
+      },
+      "required": [
+        "uuid",
+        "name",
+        "type"
+      ]
+    },
+    "commit": {
+      "type": "object",
+      "properties": {
+        "hash": {
+          "type": "string",
+          "description": "The hash of the commit associated with the deployment."
+        },
+        "message": {
+          "type": "string",
+          "description": "The commit message."
+        },
+        "author": {
+          "type": "object",
+          "properties": {
+            "uuid": {
+              "type": "string",
+              "description": "The unique identifier of the commit author."
+            },
+            "display_name": {
+              "type": "string",
+              "description": "The display name of the commit author."
+            }
+          },
+          "required": [
+            "uuid",
+            "display_name"
+          ]
+        }
+      },
+      "required": [
+        "hash",
+        "message",
+        "author"
+      ]
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "self": {
+          "type": "object",
+          "properties": {
+            "href": {
+              "type": "string",
+              "format": "uri",
+              "description": "The URL to the deployment resource."
+            }
+          },
+          "required": [
+            "href"
+          ]
+        },
+        "html": {
+          "type": "object",
+          "properties": {
+            "href": {
+              "type": "string",
+              "format": "uri",
+              "description": "The URL to the HTML representation of the deployment."
+            }
+          },
+          "required": [
+            "href"
+          ]
+        }
+      },
+      "required": [
+        "self",
+        "html"
+      ]
+    }
+  },
+  "required": [
+    "uuid",
+    "deployment_type",
+    "environment",
+    "state",
+    "created_on",
+    "trigger",
+    "commit",
+    "links"
+  ]
+}

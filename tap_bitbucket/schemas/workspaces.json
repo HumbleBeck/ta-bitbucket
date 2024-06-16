@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Workspace",
+  "type": "object",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "description": "The UUID of the workspace."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the workspace."
+    },
+    "slug": {
+      "type": "string",
+      "description": "The slug of the workspace."
+    },
+    "is_private": {
+      "type": "boolean",
+      "description": "Indicates if the workspace is private."
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "object",
+          "properties": {
+            "href": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to the HTML representation of the workspace."
+            }
+          },
+          "required": [
+            "href"
+          ]
+        },
+        "avatar": {
+          "type": "object",
+          "properties": {
+            "href": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to the workspace's avatar."
+            }
+          },
+          "required": [
+            "href"
+          ]
+        }
+      },
+      "required": [
+        "html",
+        "avatar"
+      ]
+    },
+    "created_on": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the workspace was created."
+    },
+    "updated_on": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "The date and time when the workspace was last updated."
+    }
+  },
+  "required": [
+    "uuid",
+    "name",
+    "slug",
+    "is_private",
+    "links",
+    "created_on"
+  ]
+}
