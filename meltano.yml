@@ -1,0 +1,31 @@
+version: 1
+default_environment: local
+environments:
+  - name: local
+  - name: dev
+  - name: prod
+send_anonymous_usage_stats: false
+plugins:
+  extractors:
+    - name: tap-bitbucket
+      namespace: tap_bitbucket
+      pip_url: -e .
+      executable: tap-bitbucket
+      capabilities:
+        - catalog
+        - discover
+        - state
+        - about
+      settings:
+        - name: auth_username
+          kind: string
+          sensitive: true
+        - name: auth_token
+          kind: string
+          sensitive: true
+        - name: workspaces
+          kind: string
+        - name: repositories
+          kind: string
+        - name: start_date
+          kind: string

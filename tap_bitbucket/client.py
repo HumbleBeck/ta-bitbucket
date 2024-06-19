@@ -36,7 +36,7 @@ class BitbucketStream(RESTStream):
         return BasicAuthenticator.create_for_stream(
             self,
             username=self.config.get("auth_username", ""),
-            password=self.config.get("auth_password", ""),
+            password=self.config.get("auth_token", ""),
         )
 
     @property
