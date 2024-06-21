@@ -22,7 +22,7 @@ class TapBitbucket(Tap):
             description="The username to authenticate against the API service",
         ),
         th.Property(
-            "auth_token",
+            "auth_password",
             th.StringType,
             required=True,
             secret=True,  # Flag config as protected.

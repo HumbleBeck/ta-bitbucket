@@ -1,31 +1,43 @@
 version: 1
 default_environment: local
 environments:
-  - name: local
-  - name: dev
-  - name: prod
+- name: local
 send_anonymous_usage_stats: false
 plugins:
   extractors:
-    - name: tap-bitbucket
-      namespace: tap_bitbucket
-      pip_url: -e .
-      executable: tap-bitbucket
-      capabilities:
-        - catalog
-        - discover
-        - state
-        - about
-      settings:
-        - name: auth_username
-          kind: string
-          sensitive: true
-        - name: auth_token
-          kind: string
-          sensitive: true
-        - name: workspaces
-          kind: string
-        - name: repositories
-          kind: string
-        - name: start_date
-          kind: string
+  - name: tap-bitbucket
+    namespace: tap_bitbucket
+    pip_url: -e .
+    capabilities:
+    - catalog
+    - discover
+    - state
+    - about
+    settings:
+    - name: auth_username
+      kind: string
+      label: Username
+      sensitive: true
+    - name: auth_password
+      kind: string
+      label: App password
+      sensitive: true
+    - name: workspaces
+      kind: string
+      label: Organizations
+    - name: repositories
+      kind: string
+      label: Repositories
+    - name: start_date
+      kind: string
+      label: Start Date
+    config:
+      workspaces:
+      - caloteam
+      repositories:
+      - caloteam/analytics-service
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl
+project_id: tap-bitbucket
