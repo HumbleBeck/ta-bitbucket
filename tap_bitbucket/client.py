@@ -3,18 +3,19 @@
 from __future__ import annotations
 
 from urllib.parse import parse_qsl
-from typing import Any, Iterable
+from typing import Any, Iterable, Callable, Generator
 
 import requests
 from singer_sdk.authenticators import BasicAuthenticator
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.pagination import BaseHATEOASPaginator  # noqa: TCH002
 from singer_sdk.streams import RESTStream
+import random
+import backoff
 
-class BitbucketPaginator(BaseHATEOASPaginator):
+class BitbucketBasePaginator(BaseHATEOASPaginator):
     def get_next_url(self, response):
         return response.json().get("next")
-
 
 class BitbucketStream(RESTStream):
     """bitbucket stream class."""
@@ -53,7 +54,7 @@ class BitbucketStream(RESTStream):
         return headers
 
     def get_new_paginator(self) -> BaseHATEOASPaginator:
-        return BitbucketPaginator()
+        return BitbucketBasePaginator()
 
     def get_url_params(
         self,
@@ -74,32 +75,7 @@ class BitbucketStream(RESTStream):
         if next_page_token:
             params.update(parse_qsl(next_page_token.query))
 
-        starting_date = self.get_starting_timestamp(context)
-        if starting_date and self.replication_key:
-            params["q"] = f"({self.replication_key} >= {starting_date.isoformat()})"
-
-        if self.replication_key:
-            params["sort"] = f"~{self.replication_key}"
-
         return params
-
-    # def prepare_request_payload(
-    #     self,
-    #     context: dict | None,  # noqa: ARG002
-    #     next_page_token: Any | None,  # noqa: ARG002, ANN401
-    # ) -> dict | None:
-    #     """Prepare the data payload for the REST API request.
-
-    #     By default, no payload will be sent (return None).
-
-    #     Args:
-    #         context: The stream context.
-    #         next_page_token: The next page index or value.
-
-    #     Returns:
-    #         A dictionary with the JSON body for a POST requests.
-    #     """
-    #     return None
 
     def parse_response(self, response: requests.Response) -> Iterable[dict]:
         """Parse the response and return an iterator of result records.
@@ -112,18 +88,11 @@ class BitbucketStream(RESTStream):
         """
         yield from extract_jsonpath(self.records_jsonpath, input=response.json())
 
-    # def post_process(
-    #     self,
-    #     row: dict,
-    #     context: dict | None = None,  # noqa: ARG002
-    # ) -> dict | None:
-    #     """As needed, append or transform raw data to match expected structure.
+    def backoff_jitter(self, value):
+        return random.uniform(0, value)
 
-    #     Args:
-    #         row: An individual record from the stream.
-    #         context: The stream context.
-
-    #     Returns:
-    #         The updated record dictionary, or ``None`` to skip the record.
-    #     """
-    #     return row
+    def backoff_max_tries(self):
+        return 1000
+    
+    def backoff_wait_generator(self):
+        return backoff.expo(base=10, factor=2, max_value=300)

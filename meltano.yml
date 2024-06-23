@@ -31,11 +31,6 @@ plugins:
     - name: start_date
       kind: string
       label: Start Date
-    config:
-      workspaces:
-      - caloteam
-      repositories:
-      - caloteam/analytics-service
   loaders:
   - name: target-jsonl
     variant: andyh1203

@@ -6,6 +6,7 @@ from typing import Optional, List, Any, ClassVar, Dict
 
 
 from tap_bitbucket.client import BitbucketStream
+from tap_bitbucket.commit_client import BitbucketCommitStream
 
 import importlib.resources as importlib_resources
 
@@ -81,7 +82,7 @@ class RepositoryStream(BitbucketStream):
         return params
 
 
-class CommitStream(BitbucketStream):
+class CommitStream(BitbucketCommitStream):
     """Define custom stream."""
 
     name = "commits"
