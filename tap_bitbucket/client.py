@@ -75,6 +75,8 @@ class BitbucketStream(RESTStream):
         if next_page_token:
             params.update(parse_qsl(next_page_token.query))
 
+        params["pagelen"] = 100
+
         return params
 
     def parse_response(self, response: requests.Response) -> Iterable[dict]:
