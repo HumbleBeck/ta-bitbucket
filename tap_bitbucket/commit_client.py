@@ -34,27 +34,6 @@ class BitbucketCommitStream(BitbucketStream):
     def get_new_paginator(self) -> BaseHATEOASPaginator:
         return BitbucketCommitsPaginator(self.is_force_stop)
 
-    def get_url_params(
-        self,
-        context: dict | None,  # noqa: ARG002
-        next_page_token: Any | None,  # noqa: ANN401
-    ) -> dict[str, Any]:
-        """Return a dictionary of values to be used in URL parameterization.
-
-        Args:
-            context: The stream context.
-            next_page_token: The next page index or value.
-
-        Returns:
-            A dictionary of URL query parameters.
-        """
-
-        params: dict = {}
-        if next_page_token:
-            params.update(parse_qsl(next_page_token.query))
-
-        return params
-
     def post_process(
         self,
         row: dict,
