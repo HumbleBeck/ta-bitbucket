@@ -1,153 +1,455 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Deployment",
   "type": "object",
   "properties": {
+    "deployable": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "uuid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "pipeline": {
+          "type": "object",
+          "properties": {
+            "uuid": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "type": {
+              "type": "string"
+            }
+          }
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "commit": {
+          "type": "object",
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "links": {
+              "type": "object",
+              "properties": {
+                "self": {
+                  "type": "object",
+                  "properties": {
+                    "href": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                },
+                "html": {
+                  "type": "object",
+                  "properties": {
+                    "href": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                }
+              }
+            },
+            "type": {
+              "type": "string"
+            }
+          }
+        },
+        "created_on": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "type": {
+      "type": "string"
+    },
+    "number": {
+      "type": "integer"
+    },
     "uuid": {
       "type": "string",
-      "description": "The unique identifier of the deployment."
+      "format": "uuid"
     },
-    "deployment_type": {
-      "type": "string",
-      "description": "The type of deployment (e.g., 'manual', 'auto')."
+    "key": {
+      "type": "string"
+    },
+    "step": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
     },
     "environment": {
       "type": "object",
       "properties": {
         "uuid": {
           "type": "string",
-          "description": "The unique identifier of the environment."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the environment (e.g., 'production', 'staging')."
-        },
-        "type": {
-          "type": "string",
-          "description": "The type of environment."
+          "format": "uuid"
         }
-      },
-      "required": [
-        "uuid",
-        "name",
-        "type"
-      ]
+      }
     },
-    "state": {
-      "type": "string",
-      "description": "The state of the deployment (e.g., 'successful', 'failed')."
-    },
-    "created_on": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date and time when the deployment was created."
-    },
-    "completed_on": {
-      "type": ["string", "null"],
-      "format": "date-time",
-      "description": "The date and time when the deployment was completed."
-    },
-    "trigger": {
+    "release": {
       "type": "object",
       "properties": {
+        "type": {
+          "type": "string"
+        },
         "uuid": {
           "type": "string",
-          "description": "The unique identifier of the trigger."
+          "format": "uuid"
         },
-        "name": {
-          "type": "string",
-          "description": "The name of the trigger."
-        },
-        "type": {
-          "type": "string",
-          "description": "The type of trigger (e.g., 'pipeline', 'manual')."
-        }
-      },
-      "required": [
-        "uuid",
-        "name",
-        "type"
-      ]
-    },
-    "commit": {
-      "type": "object",
-      "properties": {
-        "hash": {
-          "type": "string",
-          "description": "The hash of the commit associated with the deployment."
-        },
-        "message": {
-          "type": "string",
-          "description": "The commit message."
-        },
-        "author": {
+        "pipeline": {
           "type": "object",
           "properties": {
             "uuid": {
               "type": "string",
-              "description": "The unique identifier of the commit author."
+              "format": "uuid"
             },
-            "display_name": {
-              "type": "string",
-              "description": "The display name of the commit author."
+            "type": {
+              "type": "string"
             }
-          },
-          "required": [
-            "uuid",
-            "display_name"
-          ]
+          }
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "commit": {
+          "type": "object",
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "links": {
+              "type": "object",
+              "properties": {
+                "self": {
+                  "type": "object",
+                  "properties": {
+                    "href": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                },
+                "html": {
+                  "type": "object",
+                  "properties": {
+                    "href": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                }
+              }
+            },
+            "type": {
+              "type": "string"
+            }
+          }
+        },
+        "created_on": {
+          "type": "string",
+          "format": "date-time"
         }
-      },
-      "required": [
-        "hash",
-        "message",
-        "author"
-      ]
+      }
     },
-    "links": {
+    "state": {
       "type": "object",
       "properties": {
-        "self": {
-          "type": "object",
-          "properties": {
-            "href": {
-              "type": "string",
-              "format": "uri",
-              "description": "The URL to the deployment resource."
-            }
-          },
-          "required": [
-            "href"
-          ]
+        "type": {
+          "type": "string"
         },
-        "html": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "status": {
           "type": "object",
           "properties": {
-            "href": {
-              "type": "string",
-              "format": "uri",
-              "description": "The URL to the HTML representation of the deployment."
+            "type": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
             }
-          },
-          "required": [
-            "href"
-          ]
+          }
+        },
+        "started_on": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completed_on": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "last_successful_deployment": {
+          "type": "object",
+          "properties": {
+            "deployable": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "uuid": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "pipeline": {
+                  "type": "object",
+                  "properties": {
+                    "uuid": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "type": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "key": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "commit": {
+                  "type": "object",
+                  "properties": {
+                    "hash": {
+                      "type": "string"
+                    },
+                    "links": {
+                      "type": "object",
+                      "properties": {
+                        "self": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "format": "uri"
+                            }
+                          }
+                        },
+                        "html": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "format": "uri"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "type": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "created_on": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "type": {
+              "type": "string"
+            },
+            "number": {
+              "type": "integer"
+            },
+            "uuid": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "key": {
+              "type": "string"
+            },
+            "step": {
+              "type": "object",
+              "properties": {
+                "uuid": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "environment": {
+              "type": "object",
+              "properties": {
+                "uuid": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "release": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "uuid": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "pipeline": {
+                  "type": "object",
+                  "properties": {
+                    "uuid": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "type": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "key": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "commit": {
+                  "type": "object",
+                  "properties": {
+                    "hash": {
+                      "type": "string"
+                    },
+                    "links": {
+                      "type": "object",
+                      "properties": {
+                        "self": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "format": "uri"
+                            }
+                          }
+                        },
+                        "html": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "format": "uri"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "type": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "created_on": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "state": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "started_on": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "completed_on": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "last_successful_deployment": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            },
+            "last_update_time": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "version": {
+              "type": "integer"
+            }
+          }
+        },
+        "name": {
+          "type": "string"
         }
-      },
-      "required": [
-        "self",
-        "html"
-      ]
+      }
+    },
+    "last_update_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "version": {
+      "type": "integer"
     }
-  },
-  "required": [
-    "uuid",
-    "deployment_type",
-    "environment",
-    "state",
-    "created_on",
-    "trigger",
-    "commit",
-    "links"
-  ]
+  }
 }

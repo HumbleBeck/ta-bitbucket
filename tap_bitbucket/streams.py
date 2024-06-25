@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Optional, List, Any, ClassVar, Dict
+from typing import Optional, List, Any, Dict
 
 
 from tap_bitbucket.client import BitbucketStream
-from tap_bitbucket.commit_client import BitbucketCommitStream
+from tap_bitbucket.batch_client import BitbucketBatchStream
 
 import importlib.resources as importlib_resources
 
@@ -19,7 +19,7 @@ class WorspaceStream(BitbucketStream):
 
     name = "workspaces"
     path = "/workspaces"
-    primary_keys: ClassVar[list[str]] = ["slug", "uuid"]
+    primary_keys = ["slug", "uuid"]
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "workspaces.json"
 
@@ -54,7 +54,7 @@ class RepositoryStream(BitbucketStream):
 
     name = "repositories"
     path = "/repositories/{workspace_id}"
-    primary_keys: ClassVar[list[str]] = ["uuid"]
+    primary_keys = ["uuid"]
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "repositories.json"  # noqa: ERA001
 
@@ -82,12 +82,12 @@ class RepositoryStream(BitbucketStream):
         return params
 
 
-class CommitStream(BitbucketCommitStream):
+class CommitStream(BitbucketBatchStream):
     """Define custom stream."""
 
     name = "commits"
     path = "/repositories/{repository_id}/commits"
-    primary_keys: ClassVar[list[str]] = ["hash"]
+    primary_keys = ["hash"]
     replication_key = "date"
     is_sorted = False
 
@@ -96,13 +96,26 @@ class CommitStream(BitbucketCommitStream):
     parent_stream_type = RepositoryStream
 
 
-class DeplymentStream(BitbucketStream):
+class DeplymentStream(BitbucketBatchStream):
     """Define custom stream."""
 
     name = "deployments"
     path = "/repositories/{repository_id}/deployments"
-    primary_keys: ClassVar[list[str]] = ["uuid"]
+    primary_keys = []
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "deployments.json"  # noqa: ERA001
+
+    parent_stream_type = RepositoryStream
+
+
+class PipelineStream(BitbucketBatchStream):
+    """Define custom stream."""
+
+    name = "pipelines"
+    path = "/repositories/{repository_id}/pipelines"
+    primary_keys = ["uuid"]
+    replication_key = "created_on"
+    is_sorted = False
+    schema_filepath = SCHEMAS_DIR / "pipelines.json"  # noqa: ERA001
 
     parent_stream_type = RepositoryStream

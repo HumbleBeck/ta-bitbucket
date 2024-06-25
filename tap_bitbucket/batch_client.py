@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-from urllib.parse import parse_qsl
 from typing import Any
 
 import requests
 from singer_sdk.pagination import BaseHATEOASPaginator  # noqa: TCH002
 from .client import BitbucketStream
 
-class BitbucketCommitsPaginator(BaseHATEOASPaginator):
+class BitbucketPaginator(BaseHATEOASPaginator):
     def __init__(self, is_force_stop, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.is_force_stop = is_force_stop
@@ -23,7 +22,7 @@ class BitbucketCommitsPaginator(BaseHATEOASPaginator):
         return super().has_more(response)
 
 
-class BitbucketCommitStream(BitbucketStream):
+class BitbucketBatchStream(BitbucketStream):
     """bitbucket stream class."""
 
     _is_force_stop = False
@@ -32,7 +31,7 @@ class BitbucketCommitStream(BitbucketStream):
         return self._is_force_stop
 
     def get_new_paginator(self) -> BaseHATEOASPaginator:
-        return BitbucketCommitsPaginator(self.is_force_stop)
+        return BitbucketPaginator(self.is_force_stop)
 
     def post_process(
         self,
@@ -50,9 +49,9 @@ class BitbucketCommitStream(BitbucketStream):
         """
 
         starting_date = self.get_starting_timestamp(context)
-        if starting_date and self.name == "commits":
-            if row["date"] <= starting_date.isoformat():
-                self._is_force_stop = True ## assuming commits api is sorted desc
+        if starting_date:
+            if row[self.replication_key] <= starting_date.isoformat():
+                self._is_force_stop = True ## assuming api response sorted desc
                 return None
 
         return row

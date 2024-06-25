@@ -77,6 +77,9 @@ class BitbucketStream(RESTStream):
 
         params["pagelen"] = 100
 
+        if self.replication_key:
+            params["sort"] = f"-{self.replication_key}"
+
         return params
 
     def parse_response(self, response: requests.Response) -> Iterable[dict]:
@@ -95,6 +98,6 @@ class BitbucketStream(RESTStream):
 
     def backoff_max_tries(self):
         return 1000
-    
+
     def backoff_wait_generator(self):
         return backoff.expo(base=10, factor=2, max_value=300)
