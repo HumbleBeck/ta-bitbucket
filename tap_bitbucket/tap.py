@@ -59,6 +59,7 @@ class TapBitbucket(Tap):
             streams.RepositoryStream(self),
             streams.CommitStream(self),
             streams.DeplymentStream(self),
+            streams.PipelineStream(self),
         ]
 
 
